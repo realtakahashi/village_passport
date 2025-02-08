@@ -1,6 +1,7 @@
-# Sample Hardhat Project
+# Degital Village Passport Project
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a Hardhat Ignition module that deploys that contract.
+This contract is aimed to create simple village passport by using ERC721.
+And this contract can be manage several passport, for example accomodation ticket & etc.
 
 Try running some of the following tasks:
 
