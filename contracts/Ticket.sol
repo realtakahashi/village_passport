@@ -34,7 +34,6 @@ contract Ticket is ERC721URIStorage,Ownable,ITicket {
     }
 
     function getTicketStatus(uint256 tokenId) external view returns(string memory){
-        //require(ownerOf(tokenId)==msg.sender,"Should be owner(Anata ha ticket wo motte nai)");
         return _ticketStatus[tokenId];
     }
 }

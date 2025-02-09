@@ -67,7 +67,7 @@ describe("VillagePassport", function () {
         ).to.be.reverted;
       });
     });
-    describe("Add Passport", function () {
+    describe("Add Ticket", function () {
       it("Adding tickets test", async function () {
         const { villagePassort, owner, otherAccount } = await loadFixture(
           deployVillagePassportFixture
@@ -122,22 +122,30 @@ describe("VillagePassport", function () {
       });
       it("Non owner can not add ticket", async function () {
         const { villagePassort, owner, otherAccount } = await loadFixture(
-            deployVillagePassportFixture
-          );
-          await expect(
-            villagePassort.addPassort(otherAccount.address, "testURI0")
-          )
-            .to.emit(villagePassort, "AddedPassport")
-            .withArgs(otherAccount.address, 0);
-          expect(await villagePassort.tokenURI(0), "tokenURI0");
-          expect(await villagePassort.ownerOf(0), otherAccount.address);
-  
-          const ticket1 = await loadFixture(deployTicket1Fixture);
-          const ticket2 = await loadFixture(deployTicket2Fixture);
-          await expect(
-            villagePassort.connect(otherAccount).addTicket(ticket1.name(), ticket1.getAddress())
-          ).to.be.reverted;
-  
+          deployVillagePassportFixture
+        );
+        await expect(
+          villagePassort.addPassort(otherAccount.address, "testURI0")
+        )
+          .to.emit(villagePassort, "AddedPassport")
+          .withArgs(otherAccount.address, 0);
+        expect(await villagePassort.tokenURI(0), "tokenURI0");
+        expect(await villagePassort.ownerOf(0), otherAccount.address);
+
+        const ticket1 = await loadFixture(deployTicket1Fixture);
+        const ticket2 = await loadFixture(deployTicket2Fixture);
+        await expect(
+          villagePassort
+            .connect(otherAccount)
+            .addTicket(ticket1.name(), ticket1.getAddress())
+        ).to.be.reverted;
+      });
+      it("Non holder of passport doesn't check the ticket status", async function () {
+        const { villagePassort, owner, otherAccount } = await loadFixture(
+          deployVillagePassportFixture
+        );
+
+        expect(villagePassort.checkTicketStatus(0, 0, 0)).to.be.reverted;
       });
     });
   });
